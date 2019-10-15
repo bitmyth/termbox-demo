@@ -118,19 +118,20 @@ func (box *IBox) appendFilter(char rune) {
 
 func (box *IBox) executeHook() {
 	selected := string(box.filteredText[box.scrollY+box.cursorYOffset])
-	//firstAppear := strings.Index(selected, "=")
-	cmd := exec.Command("open", selected)
-	_ = cmd.Run()
-	//if firstAppear > 0 {
-	//	println(selected[firstAppear+1:])
-	//cmd := exec.Command("bash", "-c", selected[firstAppear+1:])
+	firstAppear := strings.Index(selected, "=")
 	//cmd := exec.Command("open", selected)
-	//buf, err := cmd.Output()
-	//println(string(buf))
-	//if err != nil {
-	//	println(err.Error())
-	//}
-	//}
+	//_ = cmd.Run()
+	var cmd *exec.Cmd
+	if firstAppear > 0 {
+		cmd = exec.Command("/bin/sh", "-c", selected[firstAppear+2:len(selected)-1])
+	}else{
+		cmd = exec.Command("/bin/sh", "-c", selected)
+	}
+	buf, err := cmd.Output()
+	println(string(buf))
+	if err != nil {
+		println(err.Error())
+	}
 }
 
 func (box *IBox) pageUp() {
