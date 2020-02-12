@@ -118,9 +118,14 @@ func (box *IBox) appendFilter(char rune) {
 
 func (box *IBox) executeHook() {
 	selected := string(box.filteredText[box.scrollY+box.cursorYOffset])
-	firstAppear := strings.Index(selected, "=")
-	//cmd := exec.Command("open", selected)
-	//_ = cmd.Run()
+	firstAppear := strings.Index(selected, "http")
+	if firstAppear == 0 {
+		cmd := exec.Command("open", selected)
+		_ = cmd.Run()
+		return
+	}
+
+	firstAppear = strings.Index(selected, "=")
 	var cmd *exec.Cmd
 	if firstAppear > 0 {
 		cmd = exec.Command("/bin/sh", "-c", selected[firstAppear+2:len(selected)-1])
