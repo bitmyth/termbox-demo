@@ -1,4 +1,4 @@
-// go install _demos/url.go
+// go install url.go
 // open url in browser
 
 package main
