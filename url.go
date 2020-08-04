@@ -33,7 +33,7 @@ const coldef = termbox.ColorDefault
 var file string
 
 func main() {
-	flag.StringVar(&file, "f", "/Users/gsh/.bash_profile", "file path")
+	flag.StringVar(&file, "f", "/Users/gsh/url", "file path")
 	flag.Parse()
 
 	err := termbox.Init()
@@ -64,6 +64,16 @@ func main() {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+
+	//br := bufio.NewReader(file)
+	//for {
+	//	a,_ , c := br.ReadLine()
+	//	if c == io.EOF {
+	//		break
+	//	}
+	//	box.text = append(box.text, a)
+	//}
+
 
 	for {
 		box.refresh()
@@ -224,7 +234,7 @@ func (box *IBox) refresh() {
 
 			termbox.SetCell(x, y, r, fg, bg)
 
-			x++
+			x += size
 			text = text[size:]
 		}
 
