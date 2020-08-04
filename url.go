@@ -219,19 +219,23 @@ func (box *IBox) refresh() {
 
 		// print line
 		x := 0
-		for {
-			if x == len(line) {
-				if x < box.width {
-					for remain := box.width - x; remain > 0; remain-- {
-						termbox.SetCell(x, y, ' ', fg, bg)
-						x++
-					}
-				}
-				break
+		for _, c := range string(line) {
+			termbox.SetCell(x, y, c, fg, bg)
+			x += runewidth.RuneWidth(c)
+
+		}
+		// Right padding with blanks
+		for x < box.width {
+			for remain := box.width - x; remain > 0; remain-- {
+				termbox.SetCell(x, y, ' ', fg, bg)
+				x++
 			}
+		}
 
+		for {
+		    break
+			// Deprecated  will causing blanks sit between chinese characters
 			r, size := utf8.DecodeRune(text)
-
 			termbox.SetCell(x, y, r, fg, bg)
 
 			x += size
