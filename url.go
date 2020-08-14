@@ -78,6 +78,11 @@ func main() {
 	for {
 		box.refresh()
 		switch ev := termbox.PollEvent(); ev.Type {
+		case termbox.EventResize:
+			box.width = ev.Width
+			box.height = ev.Height
+			box.refresh()
+
 		case termbox.EventKey:
 			switch ev.Key {
 			case termbox.KeyEsc:
